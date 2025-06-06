@@ -1,39 +1,25 @@
-# Install Zabbix Agent2 on Ubuntu
-Repositories for teaching purposes at SPOS DK
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/4-0NpdbV)
+# zbx7-auto-reg
 
-![Ubuntu and ZabbixAgent2 OSY AI](../Images/osy-Ubuntu-ZabbixAgent2.webp)
+The independent work - Vagrant and Zabbix Agent2 7.0 LTS - Auto-registration to Appliance
 
-Repository pro vyuku na SPOS DK
+# Zabbix Appliance monitoring Ubuntu by Agent2
 
-## Automatická instalace Zabbix Agent2 na OS Linux Ubuntu
+V adresáři Ubuntu máte připraven Vagrantfile z prvního pololetí se scripty
+pro registraci na server enceladus.
 
-- Vagrantfile obsahuje sekci pro aplikaci příkazů pro instalaci monitorovacího
-[Zabbix Agent2](https://www.zabbix.com/).
+## Požadované známkované úkoly
 
-### Instalace Zabbix Agent2
+- Použijte svůj Zabbix server - Zabbix aplliance, kde máte z minuleho zadání funkční interní síť 192.168.1.0/24
+- Upravte Vagrantfile tak, aby se Vám vytvořil virtuální server, který bude mít druhou síťovou kartu a nastavte na ni IPv4 adresu 192.168.1.3 - intnet
+- Vytvořte v Zabbbix GUI Appliance auto-registracni pravidlo na základě HostMetadata=SPOS - (Hostgroup, Tag, Template).
+- Upravte instalační a konfigurační scripty tak, aby jste nainstalovali Zabbix agent2 verze 7.0 LTS a nastavili konfiguraci pro auto-registraci agenta na váš Zabbix server (již existující Zabbix Appliance s Alma Linux).
+- Výsledný registrovaný host s unikátním jmenem vložte jako Screenshot do adresáře Images.
+- Upravte Ubuntu/README.md tak, aby informace v něm odpovídaly upravám ve scriptech.
 
-```console
-wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest+ubuntu22.04_all.deb
-dpkg -i zabbix-release_latest+ubuntu22.04_all.deb
+# Nápověda
 
-apt-get update
-apt-get install -y zabbix-agent2 zabbix-agent2-plugin-*
+- Zabbix [Version 7.0 LTS - repo](https://www.zabbix.com/download?zabbix=7.0&os_distribution=ubuntu&os_version=22.04&components=agent_2&db=&ws=)
+- Vagrant [virtualbox internal network](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/networking#virtualbox-internal-network)
 
-systemctl enable zabbix-agent2
-systemctl start zabbix-agent2
-```
-
-### Konfigurace Zabbix Agent2
-
-```console
-joe /etc/zabbix/zabbix_agent2.conf
-...
-Hostname=ubuntu-8e714c18
-Server=enceladus.pfsense.cz
-ServerActive=enceladus.pfsense.cz
-Timeout=30
-HostMetadata=SPOS
-
-systemctl restart zabbix-agent2
-```
 ...
