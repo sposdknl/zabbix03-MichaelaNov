@@ -1,0 +1,30 @@
+IMAGE_NAME = "ubuntu/jammy64"
+
+Vagrant.configure("2") do |config|
+    config.ssh.insert_key = false
+
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+        v.cpus = 2
+    end
+
+    config.vm.define "ubuntu" do |ubuntu|
+        ubuntu.vm.box = IMAGE_NAME
+        ubuntu.vm.network "forwarded_port", guest: 22, host: 2202, host_ip: "127.0.0.1"
+        ubuntu.vm.hostname = "ubuntu"
+
+        # Druhá síťová karta – interní síť s pevnou IP adresou
+	ubuntu.vm.network "private_network",
+                  	ip: "192.168.1.3",
+                  	adapter: 2,
+                  	virtualbox__intnet: true
+
+    end
+
+    config.vm.provision "file", source: "id_rsa.pub", destination: "~/.ssh/me.pub"
+    config.vm.provision "shell", inline: <<-SHELL
+    cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+
+    # config.vm.provision "shell", path: "zabbix-agent2.sh"
+end
